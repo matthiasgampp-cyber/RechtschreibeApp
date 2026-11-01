@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 void main() {
   runApp(const DiktatApp());
 }
-
 class DiktatApp extends StatelessWidget {
   const DiktatApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +14,7 @@ class DiktatApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterialDesign: true,
+        // useMaterialDesign wurde in Flutter 3.x entfernt und ist kein gültiger Parameter
       ),
       home: const DiktatScreen(),
     );
