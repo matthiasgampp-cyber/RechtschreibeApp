@@ -10,29 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Code auschecken
+      - name: Repository auschecken
         uses: actions/checkout@v4
 
-      - name: Java einrichten
+      - name: Java 17 einrichten
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
-      - name: Flutter einrichten
+      - name: Flutter SDK einrichten
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
           channel: 'stable'
           cache: true
 
-      - name: Android Lizenzen und Umgebung prüfen
-        run: |
-          yes | flutter doctor --android-licenses
-          flutter doctor
-
-      - name: Abhängigkeiten laden
+      - name: Abhängigkeiten herunterladen
         run: flutter pub get
 
-      - name: APK Release bauen
+      - name: Release APK bauen
         run: flutter build apk --release
+
+      - name: Fertiges APK als Artefakt bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: RechtschreibeApp-release
+          path: build/app/outputs/flutter-apk/app-release.apk
