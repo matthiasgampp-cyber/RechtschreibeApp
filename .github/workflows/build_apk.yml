@@ -25,14 +25,11 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Android SDK Lizenzen akzeptieren
+        run: yes | flutter doctor --android-licenses || true
+
       - name: Abhängigkeiten holen
         run: flutter pub get
 
       - name: APK Release bauen
-        run: flutter build apk --release
-
-      - name: APK hochladen
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+        run: flutter build apk --release --verbose
