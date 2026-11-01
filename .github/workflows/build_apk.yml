@@ -6,6 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # 👈 Zwingend notwendig, um den 403-Fehler zu beheben!
     steps:
       - name: Repository auschecken
         uses: actions/checkout@v4
@@ -25,11 +27,11 @@ jobs:
         run: flutter build apk --release
       # ── GitHub Release erstellen ──
       - name: GitHub Release erstellen
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ github.sha }}
-          name: RechtschreibeApp ${{ github.sha }}
+          files: build/app/outputs/flutter-apk/app-release.apk # 👈 Hängt die APK direkt an das Release an!
+          tag_name: v1.0.${{ github.run_number }}
+          name: RechtschreibeApp v1.0.${{ github.run_number }}
           body: |
             ## Zusammenfassung
             - **App-Version**: ${{ github.ref_name }}
