@@ -1,49 +1,39 @@
 name: Flutter APK Build
-
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Repository auschecken
         uses: actions/checkout@v4
-
       - name: Java 17 einrichten
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-
       - name: Flutter SDK einrichten
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
-
       - name: Abhängigkeiten herunterladen
         run: flutter pub get
-
       - name: Release APK bauen
         run: flutter build apk --release
-
       # ── GitHub Release erstellen ──
       - name: GitHub Release erstellen
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.sha }}
+          tag_name: ${{ github.sha }}
           name: RechtschreibeApp ${{ github.sha }}
           body: |
             ## Zusammenfassung
             - **App-Version**: ${{ github.ref_name }}
             - **Build-Info**: Release auf ${{ github.sha }}
-            - **Download**: [RechtschreibeApp APK](https://github.com/${{ github.repository }}/releases/download/${{ github.sha }}/app-release.apk)
-
       # ── APK als Artefakt bereitstellen ──
       - name: APK als Artefakt bereitstellen
         uses: actions/upload-artifact@v4
