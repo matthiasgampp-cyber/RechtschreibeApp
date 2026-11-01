@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 void main() {
   runApp(const DiktatApp());
 }
+
 class DiktatApp extends StatelessWidget {
   const DiktatApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,7 +17,6 @@ class DiktatApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        // useMaterialDesign wurde in Flutter 3.x entfernt und ist kein gültiger Parameter
       ),
       home: const DiktatScreen(),
     );
@@ -53,16 +55,17 @@ class _DiktatScreenState extends State<DiktatScreen> {
     try {
       final response = await http.get(Uri.parse('https://raw.githubusercontent.com/matthiasgampp-cyber/RechtschreibeApp/main/lernwoerter_klasse5.json'));
       if (response.statusCode == 200) {
-        setState(() {
-          _woerter = json.decode(response.body);
-          _isLoading = false;
-        });
-        if (_woerter.isNotEmpty) {
+        final List<dynamic> loaded = json.decode(response.body);
+        if (loaded.isNotEmpty) {
+          setState(() {
+            _woerter = loaded;
+            _isLoading = false;
+          });
           _speakCurrentWord();
+          return;
         }
-      } else {
-        _useFallbackWords();
       }
+      _useFallbackWords();
     } catch (e) {
       _useFallbackWords();
     }
@@ -70,9 +73,20 @@ class _DiktatScreenState extends State<DiktatScreen> {
 
   void _useFallbackWords() {
     setState(() {
+      // Erweiterter, solider Grundwortschatz für Klasse 5
       _woerter = [
-        {"wort": "Beispiel", "satz": "Das ist ein Beispiel."},
-        {"wort": "Schule", "satz": "Wir gehen in die Schule."}
+        {"wort": "Beispiel", "satz": "Das ist ein gutes Beispiel."},
+        {"wort": "Schule", "satz": "Wir gehen gerne in die Schule."},
+        {"wort": "Klassenzimmer", "satz": "Unser Klassenzimmer ist hell."},
+        {"wort": "Ferien", "satz": "Die Ferien dauern sechs Wochen."},
+        {"wort": "Hausaufgabe", "satz": "Die Hausaufgabe wird sorgfältig erledigt."},
+        {"wort": "Wörterbuch", "satz": "Schlage das Wort im Wörterbuch nach."},
+        {"wort": "Fahrrad", "satz": "Er fährt mit dem Fahrrad zur Schule."},
+        {"wort": "Fragezeichen", "satz": "Am Ende des Satzes steht ein Fragezeichen."},
+        {"wort": "Schreibtisch", "satz": "Auf dem Schreibtisch liegen Hefte."},
+        {"wort": "Entschuldigung", "satz": "Sie bat höflich um Entschuldigung."},
+        {"wort": "Wichtig", "satz": "Diese Information ist sehr wichtig."},
+        {"wort": "Lieblingsfach", "satz": "Mathematik ist mein Lieblingsfach."}
       ];
       _isLoading = false;
     });
@@ -96,18 +110,21 @@ class _DiktatScreenState extends State<DiktatScreen> {
 
     if (eingabe.toLowerCase() == zielWort.toLowerCase()) {
       setState(() {
-        _feedback = 'Richtig! Gut gemacht.';
         _controller.clear();
         if (_currentIndex < _woerter.length - 1) {
           _currentIndex++;
+          _feedback = 'Richtig! Weiter geht es mit dem nächsten Wort.';
           _speakCurrentWord();
         } else {
-          _feedback = 'Klasse! Du hast alle Wörter geschafft.';
+          // Endlos-Schleife: Nach dem letzten Wort fängt es wieder von vorne an
+          _currentIndex = 0;
+          _feedback = 'Fantastisch! Du hast alle Wörter geschafft. Die nächste Runde beginnt!';
+          _speakCurrentWord();
         }
       });
     } else {
       setState(() {
-        _feedback = 'Falsch, versuche es noch einmal!';
+        _feedback = 'Leider falsch, versuche es noch einmal!';
       });
     }
   }
@@ -147,7 +164,7 @@ class _DiktatScreenState extends State<DiktatScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'Gefordertes Wort eingeben',
                     ),
-                    onSubmitted: (_) => _checkWidgetCheck(), // Korrigierter Methodenaufruf
+                    onSubmitted: (_) => _checkWord(),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -159,7 +176,7 @@ class _DiktatScreenState extends State<DiktatScreen> {
                     _feedback,
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: _feedback.startsWith('Richtig') || _feedback.startsWith('Klasse')
+                      color: _feedback.startsWith('Richtig') || _feedback.startsWith('Fantastisch')
                           ? Colors.green
                           : Colors.red,
                       fontWeight: FontWeight.bold,
@@ -170,10 +187,5 @@ class _DiktatScreenState extends State<DiktatScreen> {
               ),
             ),
     );
-  }
-
-  // Hilfsmethode zur Sicherheit gegen Namensverwirrung
-  void _checkWidgetCheck() {
-    _checkWord();
   }
 }

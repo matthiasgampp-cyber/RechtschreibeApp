@@ -1,22 +1,86 @@
 [
   {
-    "wort": "Schifffahrt",
-    "beispielsatz": "Die Schifffahrt auf dem Rhein war sehr spannend.",
-    "kategorie": "Dreifach-Konsonant"
+    "id": "bw_0001",
+    "word": "plötzlich",
+    "category": "schwierige_merkwörter",
+    "difficulty": 1,
+    "grade": 5,
+    "rule": "Das Wort enthält ein tz nach kurzem Vokal.",
+    "exampleSentence": "Plötzlich begann es heftig zu regnen.",
+    "source": {
+      "name": "Grundwortschatz Baden-Württemberg (adaptiert)",
+      "url": "https://km.baden-wuerttemberg.de/de/service/publikation/did/grundwortschatz-fuer-den-rechtschreibunterricht-an-den-grundschulen-in-baden-wuerttemberg",
+      "license": "Pädagogische Eigenformulierung"
+    }
   },
   {
-    "wort": "großartig",
-    "beispielsatz": "Du hast heute ein großartiges Ergebnis erzielt.",
-    "kategorie": "ss / ß Unterscheidung"
+    "id": "bw_0002",
+    "word": "Fahrrad",
+    "category": "zusammengesetzte_wörter",
+    "difficulty": 1,
+    "grade": 5,
+    "rule": "Zusammensetzung aus fahren und Rad (mit h).",
+    "exampleSentence": "Er fährt jeden Tag mit dem Fahrrad zur Schule.",
+    "source": {
+      "name": "Grundwortschatz Baden-Württemberg (adaptiert)",
+      "url": "https://km.baden-wuerttemberg.de/de/service/publikation/did/grundwortschatz-fuer-den-rechtschreibunterricht-an-den-grundschulen-in-baden-wuerttemberg",
+      "license": "Pädagogische Eigenformulierung"
+    }
   },
   {
-    "wort": "das Laufen",
-    "beispielsatz": "Das Laufen im Park macht vielen Menschen Freude.",
-    "kategorie": "Großschreibung von Verben"
+    "id": "bw_0003",
+    "word": "Schifffahrt",
+    "category": "doppelkonsonanten",
+    "difficulty": 2,
+    "grade": 5,
+    "rule": "Zusammentreffen von drei gleichen Konsonanten (fff) nach neuer Rechtschreibung.",
+    "exampleSentence": "Die Schifffahrt auf dem Fluss dauert zwei Stunden.",
+    "source": {
+      "name": "Rechtschreibrahmen Baden-Württemberg",
+      "url": "https://km.baden-wuerttemberg.de/de/schule/schulartuebergreifend/rechtschreibrahmen-fuer-den-klassen-1-bis-10",
+      "license": "Pädagogische Eigenformulierung"
+    }
   },
   {
-    "wort": "Dehnung",
-    "beispielsatz": "Wörter mit Dehnungs-h muss man gut üben.",
-    "kategorie": "Dehnungs-h"
+    "id": "bw_0004",
+    "word": "Widerstand",
+    "category": "ableitungen_wortfamilien",
+    "difficulty": 2,
+    "grade": 5,
+    "rule": "Wider- (gegen) wird mit einfachem i geschrieben im Gegensatz zu Wieder (erneut).",
+    "exampleSentence": "Das Material leistet dem Strom einen großen Widerstand.",
+    "source": {
+      "name": "Rechtschreibrahmen Baden-Württemberg",
+      "url": "https://km.baden-wuerttemberg.de/de/schule/schulartuebergreifend/rechtschreibrahmen-fuer-den-klassen-1-bis-10",
+      "license": "Pädagogische Eigenformulierung"
+    }
+  },
+  {
+    "id": "bw_0005",
+    "word": "dass",
+    "category": "s_ss_sz",
+    "difficulty": 2,
+    "grade": 5,
+    "rule": "Konjunktion 'dass' wird nach kurzem Vokal mit Doppel-s geschrieben.",
+    "exampleSentence": "Ich hoffe, dass du deine Hausaufgaben erledigt hast.",
+    "source": {
+      "name": "Rechtschreibrahmen Baden-Württemberg",
+      "url": "https://km.baden-wuerttemberg.de/de/schule/schulartuebergreifend/rechtschreibrahmen-fuer-den-klassen-1-bis-10",
+      "license": "Pädagogische Eigenformulierung"
+    }
+  },
+  {
+    "id": "bw_0006",
+    "word": "aggressive",
+    "category": "haeufige_fremdwoerter",
+    "difficulty": 3,
+    "grade": 5,
+    "rule": "Fremdwort mit Doppel-g und Doppel-s.",
+    "exampleSentence": "Einige Tiere verhalten sich bei Gefahr sehr aggressiv.",
+    "source": {
+      "name": "Rechtschreibrahmen Baden-Württemberg",
+      "url": "https://km.baden-wuerttemberg.de/de/schule/schulartuebergreifend/rechtschreibrahmen-fuer-den-klassen-1-bis-10",
+      "license": "Pädagogische Eigenformulierung"
+    }
   }
 ]
