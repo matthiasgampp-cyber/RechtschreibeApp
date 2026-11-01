@@ -31,52 +31,22 @@ jobs:
       - name: Release APK bauen
         run: flutter build apk --release
 
-      - name: Fertiges APK als Artefakt bereitstellen
+      # ── GitHub Release erstellen ──
+      - name: GitHub Release erstellen
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.sha }}
+          name: RechtschreibeApp ${{ github.sha }}
+          body: |
+            ## Zusammenfassung
+            - **App-Version**: ${{ github.ref_name }}
+            - **Build-Info**: Release auf ${{ github.sha }}
+            - **Download**: [RechtschreibeApp APK](https://github.com/${{ github.repository }}/releases/download/${{ github.sha }}/app-release.apk)
+
+      # ── APK als Artefakt bereitstellen ──
+      - name: APK als Artefakt bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: RechtschreibeApp-release
           path: build/app/outputs/flutter-apk/app-release.apk
-name: Flutter APK Build
-
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # Wichtig, damit GitHub Actions ein Release erstellen darf
-
-    steps:
-      - name: Repository auschecken
-        uses: actions/checkout@v4
-
-      - name: Java 17 einrichten
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Flutter SDK einrichten
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-
-      - name: Abhängigkeiten herunterladen
-        run: flutter pub get
-
-      - name: Release APK bauen
-        run: flutter build apk --release
-
-      - name: APK als Release veröffentlichen
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/app/outputs/flutter-apk/app-release.apk
-          tag_name: v1.0.${{ github.run_number }}
-          name: RechtschreibeApp v1.0.${{ github.run_number }}
-          body: 'Automatisch gebautes Release für das Android Diktat-Training.'
-          draft: false
-          prerelease: false
