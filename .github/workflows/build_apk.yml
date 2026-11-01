@@ -36,3 +36,47 @@ jobs:
         with:
           name: RechtschreibeApp-release
           path: build/app/outputs/flutter-apk/app-release.apk
+name: Flutter APK Build
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Wichtig, damit GitHub Actions ein Release erstellen darf
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Java 17 einrichten
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Flutter SDK einrichten
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Abhängigkeiten herunterladen
+        run: flutter pub get
+
+      - name: Release APK bauen
+        run: flutter build apk --release
+
+      - name: APK als Release veröffentlichen
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          tag_name: v1.0.${{ github.run_number }}
+          name: RechtschreibeApp v1.0.${{ github.run_number }}
+          body: 'Automatisch gebautes Release für das Android Diktat-Training.'
+          draft: false
+          prerelease: false
