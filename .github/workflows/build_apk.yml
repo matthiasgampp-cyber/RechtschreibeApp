@@ -2,42 +2,35 @@ name: Flutter APK Build
 
 on:
   push:
-  #  branches: [ "main" ] # Aktivieren, wenn es automatisch bei jedem Push laufen soll
-  workflow_dispatch: # Erlaubt den manuellen Start direkt auf GitHub per Klick
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 # Fester Ubuntu-Standard für maximale Stabilität
 
     steps:
-      # 1. Projektcode auslesen
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      # 2. Java installieren (wird für Android zwingend benötigt)
       - name: Java einrichten
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # 3. Flutter SDK auf dem Server einrichten
       - name: Flutter einrichten
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v3
         with:
-          flutter-version: '3.x'
+          flutter-version: '3.19.0' # Stabile, feste Flutter-Version
           channel: 'stable'
           cache: true
 
-      # 4. Abhängigkeiten (flutter_tts, http etc.) laden
       - name: Dependencies installieren
         run: flutter pub get
 
-      # 5. APK-Datei für Android im Release-Modus bauen
       - name: APK bauen
         run: flutter build apk --release
 
-      # 6. Die fertige APK als Download-Datei (Artifact) speichern
       - name: APK hochladen
         uses: actions/upload-artifact@v4
         with:
