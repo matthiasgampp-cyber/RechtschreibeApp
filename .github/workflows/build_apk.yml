@@ -22,14 +22,17 @@ jobs:
       - name: Flutter einrichten
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.19.6'
           channel: 'stable'
           cache: true
 
-      - name: Android SDK Lizenzen akzeptieren
-        run: yes | flutter doctor --android-licenses || true
+      - name: Android Lizenzen und Umgebung prüfen
+        run: |
+          yes | flutter doctor --android-licenses
+          flutter doctor
 
-      - name: Abhängigkeiten holen
+      - name: Abhängigkeiten laden
         run: flutter pub get
 
       - name: APK Release bauen
-        run: flutter build apk --release --verbose
+        run: flutter build apk --release
